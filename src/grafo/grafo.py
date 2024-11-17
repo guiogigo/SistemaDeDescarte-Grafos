@@ -1,16 +1,5 @@
-from random import *
+from .Vertice import * 
 
-class Vertice:
-    def __init__(self,n):                                   # Construtor do Vértice
-        self.n = n
-        self.lixo = randint(0,10)                           # Adiciona lixo e animais no momento de criação
-        self.rato = 1 if randint(1,2) == 1 else 0           
-        self.gato = 1 if randint(1,4) == 1 else 0
-        self.cachorro = 1 if randint(1,10) == 1 else 0
-    
-    def __str__(self):                                      # Põe suas informações em formato de string se chamar print(vertice)
-        return f"{self.n}, l={self.lixo}, r={self.rato}, g={self.gato}, c={self.cachorro}" 
-    
 class Grafo:
     def __init__(self, direcionado=False):                  # Construtor do Grafo
         self.vertices = {}      # Dicionario de vértices, basicamente usado como um vetor normal, porém com mais utilidades
@@ -29,6 +18,11 @@ class Grafo:
             for j in range(qtd):
                 self.pesos[i][j] = float('inf') if i!=j else 0
     
+    def getVertice(self, v) -> Vertice:
+        return self.vertices[v]
+        
+
+
     def add_aresta(self, v1, v2, peso=1):               # Adiciona as arestas no dicionario de adjacencia
         if v1 in self.vertices and v2 in self.vertices: # Se os vertices existirem no grafo:
             self.adjacencias[v1].append(v2)             # Coloca v2 como item da chave v1, v2 vizinho de v1
@@ -36,6 +30,12 @@ class Grafo:
             if not self.direcionado:                    # Se não for direcionado, faz a operação simétrica
                 self.adjacencias[v2].append(v1)
                 self.pesos[v2][v1] = peso
+
+    def get_peso(self, v1, v2):
+        return self.pesos[v1][v2]
+    
+    def get_adjacensias(self, v):
+        return self.adjacencias[v]
         
     def buscaLarg(self,v):              # Busca em largura normal
         visitados = []
@@ -51,7 +51,6 @@ class Grafo:
                 for v in self.adjacencias[u]:
                     if v not in visitados and v not in fila:
                         fila.append(v)
-
         return ordem_visita
     
     def printpeso(self):        # Só printa os pesos
@@ -69,6 +68,7 @@ class Grafo:
             resultado += "\n"   # Nova linha
         return resultado
 
+"""
 g = Grafo()
 g.add_vertices(4)
 
@@ -80,3 +80,5 @@ g.add_aresta(1,3,4)
 
 g.printpeso()
 print(g)
+###
+"""
