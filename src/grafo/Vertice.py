@@ -3,7 +3,8 @@ from random import *
 class Vertice:
     def __init__(self,n):                                   # Construtor do Vértice
         self.n = n
-        self.lixo = randint(0,10)                           # Adiciona lixo e animais no momento de criação
+        #self.lixo = randint(0,10)                           # Adiciona lixo e animais no momento de criação
+        self.lixo = 10
         self.rato = 1 if randint(1,2) == 1 else 0           
         self.gato = 1 if randint(1,4) == 1 else 0
         self.cachorro = 1 if randint(1,10) == 1 else 0

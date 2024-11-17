@@ -15,7 +15,8 @@ g.add_aresta(1,3,4)
 def dijsktraPai(g: Grafo, v, n):
     H = []                                  # Heap
     C = []                                  # Lista de Custos
-    pai = [None] * n                        # Lista de pai para n vertices
+    pai = [(None, None)] * n     
+                   # Lista de pai para n vertices
     caminho = {i: [] for i in range(n)}     # Dicionário de caminhos para cada vértice
     for i in range(0, n):                       
         C.append(g.get_peso(v, i))          # Coloca os pesos na lista de custos
@@ -34,13 +35,13 @@ def dijsktraPai(g: Grafo, v, n):
                 C[z] = C[u[1]] + g.get_peso(u[1], z)
                 #print("Custo alterado")
                 heapq.heappush(H, (C[z], z))            # Coloca a tupla no heap
-                pai[z] = u[1]                           # Coloca o pai no lugar certo
-                
+                pai[z] = u                         # Coloca o pai no lugar certo
+    
     for i in range(0, n):                   # para todo vertice
-        atual = i                           # pega o vertice
-        while atual != None:                # enquanto ele não for nulo(o vertice escolhido deve ser nulo)
+        atual = (C[i], i)                           # pega o vertice
+        while atual[1] != None:                # enquanto ele não for nulo(o vertice escolhido deve ser nulo)
             caminho[i].insert(0, atual)     # insere o pai no inicio
-            atual = pai[atual]              # passa pro próximo pai
+            atual = pai[atual[1]]              # passa pro próximo pai
 
     return caminho                          # FIM
 """
@@ -50,13 +51,14 @@ def dijsktraPai(g: Grafo, v, n):
     [3][0, 1, 3]
 """
 
-def percorrer(c: Caminhao, caminhos: dict, v: int, g: Grafo): # quero fazer uma função simples só para adicionar o lixo no camninhao ao longo do percurso
+def juntar_Lixo(c: Caminhao, caminhos: dict, v: int, g: Grafo): # quero fazer uma função simples só para adicionar o lixo no camninhao ao longo do percurso
     for i in caminhos[v]:                     
-        c.qtd_lixo += g.getVertice(i).get_Lixo()      
-        #v = g.getVertice(i)             
-        #print(v)
-    print(c.qtd_lixo)
+        print(i) 
+        c.qtd_lixo += g.getVertice(i[1]).get_Lixo()    
+        print(c.qtd_lixo) 
+
 
 caminhos = dijsktraPai(g, 0, 4)
-print(caminhos)
-percorrer(truck, caminhos, 3, g)
+for i in range(4):
+    print(f"{i}: {caminhos[i]}")
+juntar_Lixo(truck, caminhos, 2, g)
