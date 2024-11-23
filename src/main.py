@@ -37,11 +37,11 @@ def dijsktraPai(g: Grafo, v, n):
                 heapq.heappush(H, (C[z], z))            # Coloca a tupla no heap
                 pai[z] = u                         # Coloca o pai no lugar certo
     
-    for i in range(0, n):                   # para todo vertice
-        atual = (C[i], i)                           # pega o vertice
-        while atual[1] != None:                # enquanto ele não for nulo(o vertice escolhido deve ser nulo)
+    for i in range(0, n):  
+        atual = (C[i], i)                   # pega o vertice
+        while atual[1] != None:             # enquanto ele não for nulo(o vertice escolhido deve ser nulo)
             caminho[i].insert(0, atual)     # insere o pai no inicio
-            atual = pai[atual[1]]              # passa pro próximo pai
+            atual = pai[atual[1]]           # passa pro próximo pai
 
     return caminho                          # FIM
 """
@@ -51,14 +51,20 @@ def dijsktraPai(g: Grafo, v, n):
     [3][0, 1, 3]
 """
 
-def juntar_Lixo(c: Caminhao, caminhos: dict, v: int, g: Grafo): # quero fazer uma função simples só para adicionar o lixo no camninhao ao longo do percurso
+def juntarLixo(c: Caminhao, caminhos: dict, v: int, g: Grafo): # quero fazer uma função simples só para adicionar o lixo no camninhao ao longo do percurso
+    anterior = 0;
     for i in caminhos[v]:                     
         print(i) 
+        c.percorrido += g.get_peso(anterior, i[1])
+        anterior = i[1]
         c.qtd_lixo += g.getVertice(i[1]).get_Lixo()    
-        print(c.qtd_lixo) 
+        print(f"Total de lixo: {c.qtd_lixo}") 
+        print(f"Total de minutos: {c.percorrido}")
 
 
 caminhos = dijsktraPai(g, 0, 4)
 for i in range(4):
     print(f"{i}: {caminhos[i]}")
-juntar_Lixo(truck, caminhos, 2, g)
+juntarLixo(truck, caminhos, 3, g)
+
+
