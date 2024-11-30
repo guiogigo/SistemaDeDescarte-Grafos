@@ -13,14 +13,13 @@ with open("grafo.json", "r") as file:
     arqGrafo = json.load(file)
 
 # Criação do grafo
-g = Grafo(len(arqGrafo),0)
+g = Grafo(arqGrafo["pontos"],arqGrafo["direcionado"])
 
 for v in g.vertices:
     v.encher()
 
-for i in range(len(arqGrafo)):
-    for j in range(len(arqGrafo[str(i)]["arestas"])):
-        g.add_aresta(arqGrafo[str(i)]["arestas"][j][0], arqGrafo[str(i)]["arestas"][j][1], arqGrafo[str(i)]["arestas"][j][2])
+for j in range(len(arqGrafo["arestas"])):
+    g.add_aresta(arqGrafo["arestas"][j][0], arqGrafo["arestas"][j][1], arqGrafo["arestas"][j][2])
 # g.add_aresta(0,1,5)
 # g.add_aresta(0,2,1)
 # g.add_aresta(0,3,1)
@@ -29,8 +28,8 @@ for i in range(len(arqGrafo)):
 
 print(g)
 
-lixao = 2
-zoo = 3
+lixao = arqGrafo["aterro"]
+zoo = arqGrafo["centroZoo"]
 
 #--------------------------------------------
 # Inico do loop de simulação
