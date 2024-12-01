@@ -15,7 +15,7 @@ class Caminhao(Veiculo):
         return self.qtdCompressao == MAX_CAMINHAO_COMPRESSAO
 
     def coletar(self, g:Grafo):
-        v:Vertice = g.vertices[self.caminho[0]]
+        v = g.vertices[self.caminho[0]]
 
         qtd = MAX_CAMINHAO_CARGA - self.carga
 

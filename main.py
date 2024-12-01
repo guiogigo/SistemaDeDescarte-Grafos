@@ -20,11 +20,6 @@ for v in g.vertices:
 
 for j in range(len(arqGrafo["arestas"])):
     g.add_aresta(arqGrafo["arestas"][j][0], arqGrafo["arestas"][j][1], arqGrafo["arestas"][j][2])
-# g.add_aresta(0,1,5)
-# g.add_aresta(0,2,1)
-# g.add_aresta(0,3,1)
-# g.add_aresta(3,2,3)
-# g.add_aresta(3,1,2)
 
 print(g)
 
@@ -34,16 +29,33 @@ zoo = arqGrafo["centroZoo"]
 #--------------------------------------------
 # Inico do loop de simulação
 
-tempo = float('inf')
-while tempo > 480:
-    caminhoes = [] 
 
+qtdCaminhoes = 1
+qtdFuncionarios = MIN_CAMINHAO_FUNCIONARIOS-1
+
+tempo = MAX_TEMPO+1
+
+while tempo > MAX_TEMPO:
+
+    for v in g.vertices:
+        v.encher()
     carrocinhas = [Carrocinha(zoo) for _ in range(QTD_CARROCINHA)]
+
+    qtdFuncionarios += 1
+    if qtdFuncionarios%5 == 1:
+        qtdCaminhoes += 1
+        qtdFuncionarios = MIN_CAMINHAO_FUNCIONARIOS*qtdCaminhoes
+    
+    caminhoes = []
+    f = qtdFuncionarios
+    for i in range(qtdCaminhoes):
+        caminhoes.append(Caminhao(lixao,round(f//(qtdCaminhoes-i))))
+        f -= f//qtdCaminhoes
+
     destCarrocinha = []
-
+    
     tempo = 0
-
-    while len(g.verticesCheios)>0:
+    while len(g.verticesCheios)>0 and tempo < MAX_TEMPO:
 
         for i in range(g.qtd):
             adj = [g.vertices[v] for v in g.adjacencias[i]]
@@ -107,5 +119,4 @@ while tempo > 480:
                 c.carga = 0
                 c.estado = 'parado'
 
-
-print(f"Tempo final: {tempo} min")
+print(f"Nº Caminhões: {qtdCaminhoes}\nNº Funcionarios: {qtdFuncionarios}\nTempo final: {tempo} min")
