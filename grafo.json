@@ -1,0 +1,9 @@
+
+{
+    "pontos" : 5,
+    "direcionado" : false,
+    "arestas" : [[0,2,1],[0,3,2],[1,2,4],[1,4,6],[3,4,3]],
+    "aterro" : 2,
+    "centroZoo" : 3
+  }
+  
