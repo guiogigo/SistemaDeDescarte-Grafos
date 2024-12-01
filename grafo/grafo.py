@@ -2,7 +2,7 @@ from .vertice import Vertice
 
 class Grafo:
     def __init__(self, qtd:int ,direcionado=False):                  # Construtor do Grafo
-        self.vertices = [Vertice]*qtd
+        self.vertices:list[Vertice] = [None]*qtd
         self.qtd = qtd
         self.verticesCheios = []
         self.adjacencias = {}      

@@ -46,7 +46,7 @@ while tempo > MAX_TEMPO:
         qtdCaminhoes += 1
         qtdFuncionarios = MIN_CAMINHAO_FUNCIONARIOS*qtdCaminhoes
     
-    caminhoes = []
+    caminhoes:list[Caminhao] = []
     f = qtdFuncionarios
     for i in range(qtdCaminhoes):
         caminhoes.append(Caminhao(lixao,round(f//(qtdCaminhoes-i))))
@@ -63,28 +63,34 @@ while tempo > MAX_TEMPO:
 
         for i,c in enumerate(caminhoes):                                # Para cada caminhão
             if len(c.caminho)==1:                                       # Se o caminho anterior ja foi percorrido
-                dest = choice(g.verticesCheios)
+                try:
+                    dest = choice(g.verticesCheios)
+                except:
+                    dest = lixao
                 while dest == c.caminho[0] and len(g.verticesCheios)>1:
                     dest = choice(g.verticesCheios)
                 c.caminho = caminhoMin(c.caminho[0],dest,g)             # Cria um novo caminho para um vértice cheio aleatório 
             
 
+
+            while c.caminho[0] in g.verticesCheios and not c.cheio():
+                    tempo += c.coletar(g) * (2 if g.vertices[c.caminho[0]].temAnimal() != 'vazio' else 1)  # coleta e calcula o tempo
+            
             if c.cheio() and c.estado == 'indo':
                 c.estado = 'voltando'
                 c.caminho = caminhoMin(c.caminho[0],lixao,g)            # Se ficou cheio, cria um caminho de volta pro lixao
-            else:
-                tempo += c.coletar(g) * (2 if g.vertices[c.caminho[0]].temAnimal() != 'vazio' else 1)  # Senao, coleta e calcula o tempo
-            
+                
 
             if g.vertices[c.caminho[0]].temAnimal() == 'geral' and c.caminho[0] not in destCarrocinha:     # Se encontrou animal em um vértice novo, poe na lista pra carrocinha
                 destCarrocinha.append(c.caminho[0])
             
-            print(f"=Caminhão {i}=\n{c}\n")
-            if len(c.caminho)>1:        # Move o caminhao se o caminho tem 2+ vértices
-                tempo += c.mover(g)
             
             if c.caminho[0] == lixao and c.estado == 'voltando':   # Se chegar no lixao, esvazia e atualiza estado
                 c.esvaziarCaminhao()
+            
+            print(f"=== Caminhão {i} ===\n{c}\n")
+            if len(c.caminho)>1:        # Move o caminhao se o caminho tem 2+ vértices
+                tempo += c.mover(g)
         
 
         for i,c in enumerate(carrocinhas):                      # Para cada carrocinha
@@ -110,7 +116,7 @@ while tempo > MAX_TEMPO:
                 c.caminho = caminhoMin(c.caminho[0],zoo,g)
             
 
-            print(f"-Carrocinha {i}-\n{c}\n") if c.estado != 'parado' else None
+            print(f"--- Carrocinha {i} ---\n{c}\n") if c.estado != 'parado' else None
             if len(c.caminho)>1 and c.estado != 'parado':           # Mover se o caminho tem 2+ vertices
                 c.mover(g)
             
