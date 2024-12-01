@@ -43,7 +43,7 @@ while max(tempo) > MAX_TEMPO:
     carrocinhas = [Carrocinha(zoo) for _ in range(QTD_CARROCINHA)]
 
     qtdFuncionarios += 1
-    if qtdFuncionarios%5 == 1:
+    if qtdFuncionarios%(5*qtdCaminhoes) == 1:
         qtdCaminhoes += 1
         qtdFuncionarios = MIN_CAMINHAO_FUNCIONARIOS*qtdCaminhoes
     
