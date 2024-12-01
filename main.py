@@ -39,6 +39,7 @@ while tempo > MAX_TEMPO:
 
     for v in g.vertices:
         v.encher()
+    g.verticesCheios = [i for i in range(g.qtd)]
     carrocinhas = [Carrocinha(zoo) for _ in range(QTD_CARROCINHA)]
 
     qtdFuncionarios += 1
@@ -125,4 +126,6 @@ while tempo > MAX_TEMPO:
                 c.carga = 0
                 c.estado = 'parado'
 
-print(f"Nº Caminhões: {qtdCaminhoes}\nNº Funcionarios: {qtdFuncionarios}\nTempo final: {tempo} min")
+    print("---------------------------------------------------------------------\n" 
+          +f"Nº Caminhões: {qtdCaminhoes}\nNº Funcionarios: {qtdFuncionarios}\nTempo final: {tempo} min\n"
+          +"---------------------------------------------------------------------\n" )

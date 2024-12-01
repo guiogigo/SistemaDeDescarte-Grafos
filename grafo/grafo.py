@@ -4,14 +4,13 @@ class Grafo:
     def __init__(self, qtd:int ,direcionado=False):                  # Construtor do Grafo
         self.vertices:list[Vertice] = [None]*qtd
         self.qtd = qtd
-        self.verticesCheios = []
+        self.verticesCheios = [i for i in range(qtd)]
         self.adjacencias = {}      
         
         self.direcionado = direcionado
 
         for i in range(qtd):
             self.vertices[i] = Vertice(i)                           # Cria todos os n vertices
-            self.verticesCheios.append(i)
             self.adjacencias[i] = []
         
         self.pesos = [[0 for _ in range(qtd)] for _ in range(qtd)]  # Gera a matriz de pesos para entao colocar valores iniciais
