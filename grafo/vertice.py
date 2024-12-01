@@ -46,7 +46,7 @@ class Vertice:
             choice(adjacentes).gato += self.gato
             self.gato = 0
         
-        if self.lixo == 0 and self.temAnimal():                     # Se o vértice tem lixo=0
+        if self.lixo == 0 and self.temAnimal() == 'geral':                     # Se o vértice tem lixo=0
             if self.cachorro:
                 choice(adjacentes).cachorro += self.cachorro
                 self.cachorro = 0

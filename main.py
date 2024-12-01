@@ -107,7 +107,7 @@ while max(tempo) > MAX_TEMPO:
                     destCarrocinha.remove(v)
             
 
-            if g.vertices[c.caminho[0]].temAnimal() and not c.cheio():        # Se tem animal, coleta
+            if g.vertices[c.caminho[0]].temAnimal() == 'geral' and not c.cheio():        # Se tem animal, coleta
                 c.coletar(g)
             
 
