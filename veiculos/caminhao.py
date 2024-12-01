@@ -16,22 +16,25 @@ class Caminhao(Veiculo):
 
     def coletar(self, g:Grafo):
         v = g.vertices[self.caminho[0]]
-
-        qtd = MAX_CAMINHAO_CARGA - self.carga
-
-        if qtd >= v.lixo:               # Se a capacidade do caminhão for maior que o vértice
-            lixo = v.lixo            
-            v.lixo = 0                  # Esvazia totalmente e retorna a quantidade de lixo que tinha no vértice
-            if v.n in g.verticesCheios:
-                g.verticesCheios.remove(v.n)
-            self.carga += lixo
+        tempo = 0
+        while self.caminho[0] in g.verticesCheios and not self.cheio():
+            qtd = MAX_CAMINHAO_CARGA - self.carga
+            
+            if qtd >= v.lixo:               # Se a capacidade do caminhão for maior que o vértice
+                lixo = v.lixo            
+                v.lixo = 0                  # Esvazia totalmente e retorna a quantidade de lixo que tinha no vértice
+                if v.n in g.verticesCheios:
+                    g.verticesCheios.remove(v.n)
+                self.carga += lixo
+                self.comprimir()
+                tempo += lixo//self.funcionarios
+                continue
+            
+            v.lixo -= qtd                   # Senão subtrai por qtd e retorna esse qtd
+            self.carga += qtd
             self.comprimir()
-            return lixo//self.funcionarios
-        
-        v.lixo -= qtd                   # Senão subtrai por qtd e retorna esse qtd
-        self.carga += qtd
-        self.comprimir()
-        return qtd//self.funcionarios
+            tempo += qtd//self.funcionarios
+        return tempo
 
     
     def __str__(self):

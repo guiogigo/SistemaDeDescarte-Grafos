@@ -33,9 +33,9 @@ zoo = arqGrafo["centroZoo"]
 qtdCaminhoes = 1
 qtdFuncionarios = MIN_CAMINHAO_FUNCIONARIOS-1
 
-tempo = MAX_TEMPO+1
+tempo = [MAX_TEMPO+1]
 
-while tempo > MAX_TEMPO:
+while max(tempo) > MAX_TEMPO:
 
     for v in g.vertices:
         v.encher()
@@ -55,8 +55,8 @@ while tempo > MAX_TEMPO:
 
     destCarrocinha = []
     
-    tempo = 0
-    while len(g.verticesCheios)>0 and tempo < MAX_TEMPO:
+    tempo = [0]*qtdCaminhoes
+    while len(g.verticesCheios)>0 and max(tempo) < MAX_TEMPO:
 
         for i in range(g.qtd):
             adj = [g.vertices[v] for v in g.adjacencias[i]]
@@ -73,9 +73,8 @@ while tempo > MAX_TEMPO:
                 c.caminho = caminhoMin(c.caminho[0],dest,g)             # Cria um novo caminho para um vértice cheio aleatório 
             
 
-
-            while c.caminho[0] in g.verticesCheios and not c.cheio():
-                    tempo += c.coletar(g) * (2 if g.vertices[c.caminho[0]].temAnimal() != 'vazio' else 1)  # coleta e calcula o tempo
+            if c.caminho[0] in g.verticesCheios and not c.cheio():
+                    tempo[i] += c.coletar(g) * (2 if g.vertices[c.caminho[0]].temAnimal() != 'vazio' else 1)  # coleta e calcula o tempo
             
             if c.cheio() and c.estado == 'indo':
                 c.estado = 'voltando'
@@ -91,7 +90,7 @@ while tempo > MAX_TEMPO:
             
             print(f"=== Caminhão {i} ===\n{c}\n")
             if len(c.caminho)>1:        # Move o caminhao se o caminho tem 2+ vértices
-                tempo += c.mover(g)
+                tempo[i] += c.mover(g)
         
 
         for i,c in enumerate(carrocinhas):                      # Para cada carrocinha
@@ -127,5 +126,5 @@ while tempo > MAX_TEMPO:
                 c.estado = 'parado'
 
     print("---------------------------------------------------------------------\n" 
-          +f"Nº Caminhões: {qtdCaminhoes}\nNº Funcionarios: {qtdFuncionarios}\nTempo final: {tempo} min\n"
+          +f"Nº Caminhões: {qtdCaminhoes}\nNº Funcionarios: {qtdFuncionarios}\nTempo final: {max(tempo)} min\n"
           +"---------------------------------------------------------------------\n" )
